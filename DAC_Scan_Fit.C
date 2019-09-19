@@ -9,6 +9,11 @@
 #include "langaus.C"
 using namespace std;
 
+int main() {
+  return 1;
+}
+
+
 void DAC_Scan_Fit(const int ifem, const int ich){
   const int Scan_num=13;
   int Color[12]={600,603,618,616,632,634,402,416,418,420,435,433};
@@ -166,10 +171,13 @@ void DAC_Scan_Fit(const int ifem, const int ich){
   TGraphErrors *FMIP = new TGraphErrors();
   double adc[63]; 
   int adc_c[63];
-  c2-> Divide(13,2);
+  c2-> Divide(3,2);
   //TF1* fun[26];
+  int canvas=0;
   for(int ic=0; ic<26; ++ic){
-    c2-> cd(26-ic);
+    if( abs(ic-ich+27)<2 || abs(ic-ich+40)<2 ){
+    c2-> cd(6-canvas);
+    cout << "canvas:" << canvas << endl;
     memset( (void *)adc, 0, sizeof(double)*63 );
     memset( (void *)adc_c, 0, sizeof(int)*63 );
     for(int is=0; is<Scan_num; ++is){
@@ -229,10 +237,12 @@ void DAC_Scan_Fit(const int ifem, const int ich){
     pllo[0]=0.5; pllo[1]=100.0; pllo[2]=1.0; pllo[3]=0.4;
     plhi[0]=5.0; plhi[1]=150.0; plhi[2]=1000000.0; plhi[3]=20.0;
     sv[0]=1.5; sv[1]=125.0; sv[2]=50000.0; sv[3]=10.0;
+    double np[3], nps[3]={1,8,0.5}, npr[2]={0,50};
 
     double chisqr;
     int    ndf;
-    TF1 *fitsnr = langaufit(ADC_Full[ic],fr,sv,pllo,plhi,fp,fpe,&chisqr,&ndf);
+    TF1 *fitsnr = langaufit(ADC_Full[ic],fr,sv,pllo,plhi,fp,fpe,&chisqr,&ndf,nps,npr,np);
+
     double SNRPeak, SNRFWHM;
     langaupro(fp,SNRPeak,SNRFWHM);
     //fun[ic]= new TF1("fun","TMath::Landau(x,[0],[1],0)",0,190);
@@ -244,13 +254,15 @@ void DAC_Scan_Fit(const int ifem, const int ich){
     //cout << fp[0] << " " << fp[1] << " " << fp[2] << " " << fp[3] << endl;
     ADC_Full[ic]-> Draw();
     fitsnr-> Draw("lsame");
-    FWidth-> SetPoint(ic,ic+1,fp[0]);
-    FWidth-> SetPointError(ic,0,fpe[0]);
-    FMIP-> SetPoint(ic,ic+1,fp[1]);
-    FMIP-> SetPointError(ic,0,fpe[0]);
+    FWidth-> SetPoint(canvas,canvas+1,fp[0]);
+    FWidth-> SetPointError(canvas,0,fpe[0]);
+    FMIP-> SetPoint(canvas,canvas+1,fp[1]);
+    FMIP-> SetPointError(canvas,0,fpe[0]);
     //fun[ic]-> Draw("same");
     //cout << fun[ic]-> GetParameter() << endl;
     //ADC_Full[ic]-> SetMaximum(max);
+    ++canvas;
+    }
   }//ic
   c2-> Print(Form("dacScan_F%d_Fit.png",ifem));
   c3-> cd();
