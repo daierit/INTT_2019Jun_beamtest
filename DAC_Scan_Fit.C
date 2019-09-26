@@ -9,12 +9,10 @@
 #include "langaus.C"
 using namespace std;
 
-int main() {
-  return 1;
-}
-
-
-void DAC_Scan_Fit(const int ifem, const int ich){
+//void DAC_Scan_Fit(const int ifem, const int ich){
+int main(int argc, char *argv[]){
+  int ifem = atoi(argv[1]);
+  int ich = atoi(argv[2]);
   const int Scan_num=13;
   int Color[12]={600,603,618,616,632,634,402,416,418,420,435,433};
   char name[200];
@@ -31,7 +29,7 @@ void DAC_Scan_Fit(const int ifem, const int ich){
   for(int is=0; is<Scan_num; ++is){
     //sprintf(path,"/sphenix/data/data02/sphenix/t1439/2019/prdf/macro");
     //sprintf(filename,"%s/data-%.8d.root",path,RN_scan[is]);
-    sprintf(path,"/sphenix/u/kycheng/INTT_2019Jun_beamtest/adcdata");
+    sprintf(path,"/home/kycheng/INTT_2019Jun_beamtest/adcdata");
     sprintf(filename,"%s/DAC-scan%d.root",path,is+1);
     TFile *f1= TFile::Open(filename);
     sprintf(name,"adc_value>>rh1_%d",is);
@@ -181,7 +179,7 @@ void DAC_Scan_Fit(const int ifem, const int ich){
     memset( (void *)adc, 0, sizeof(double)*63 );
     memset( (void *)adc_c, 0, sizeof(int)*63 );
     for(int is=0; is<Scan_num; ++is){
-      sprintf(path,"/sphenix/u/kycheng/INTT_2019Jun_beamtest/adcdata");
+      sprintf(path,"/home/kycheng/INTT_2019Jun_beamtest/adcdata");
       sprintf(filename,"%s/DAC-scan%d.root",path,is+1);
       TFile *f1= TFile::Open(filename);
       sprintf(name,"adc_value>>rh2_%d",is);

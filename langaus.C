@@ -1,15 +1,15 @@
-//#include "TH1.h"
-//#include "TF1.h"
+#include "TH1.h"
+#include "TF1.h"
 #include "TROOT.h"
-//#include "TStyle.h"
-//#include "TMath.h"
+#include "TStyle.h"
+#include "TMath.h"
 
 #include <iostream>
-int main() {
+/*int main() {
   std::cerr << "Hello World !\n";
   return 1;
-}
-/*
+}*/
+
 Double_t langaufun(Double_t *x, Double_t *par) {
 
   //Fit parameters:
@@ -63,9 +63,9 @@ Double_t langaufun(Double_t *x, Double_t *par) {
 
   return (par[2] * step * sum * invsq2pi / par[3]);
 }
-*/
 
-/*
+
+
 TF1 *langaufit(TH1F *his, Double_t *fitrange, Double_t *startvalues, Double_t *parlimitslo, Double_t *parlimitshi, Double_t *fitparams, Double_t *fiterrors, Double_t *ChiSqr, Int_t *NDF, Double_t *noiseparS, Double_t *noiserange, Double_t *noisepar)
 {
   // Once again, here are the Landau * Gaussian parameters:
@@ -116,15 +116,15 @@ TF1 *langaufit(TH1F *his, Double_t *fitrange, Double_t *startvalues, Double_t *p
   his->Fit(FunName,"R+");
   noisefit->GetParameters(noisepar);
   sprintf(FunName,"Fittotal_%s",his->GetName());
-  TF1 *totalfit = new TF1(FunName,"langaufun(0)+gaus(4)",noiserange[0],fitrange[1],7);
-  double totlepar[7]={fitparams[0],fitparams[1],fitparams[2],fitparams[3],noisepar[0],noisepar[1],noisepar[2]};
-  totalfit-> SetParameters(totlepar);
-  his->Fit(FunName,"R+");
-  return (totalfit);              // return fit function
+  TF1 *totalfit = new TF1(FunName,"langaufun(&x,fitparams)ramsgaus(4)",noiserange[0],fitrange[1]);
+  //double totlepar[7]={fitparams[0],fitparams[1],fitparams[2],fitparams[3],noisepar[0],noisepar[1],noisepar[2]};
+  //totalfit-> SetParameters(totlepar);
+  //his->Fit(FunName,"R+");
+  return (ffit);              // return fit function
 
 }
-*/
-/*
+
+
 Int_t langaupro(Double_t *params, Double_t &maxx, Double_t &FWHM) {
 
   // Seaches for the location (x value) at the maximum of the
@@ -226,7 +226,7 @@ Int_t langaupro(Double_t *params, Double_t &maxx, Double_t &FWHM) {
   FWHM = fxr - fxl;
   return 0;
 }
-*/
+
 /*void langaus() {
   // Fill Histogram
   Int_t data[100] = {0,0,0,0,0,0,2,6,11,18,18,55,90,141,255,323,454,563,681,

@@ -3,16 +3,16 @@ LDP = $(shell root-config --ld)
 LIBP = $(shell root-config --libs)
 
 all :
-	make langaus
-	#make DAC_Scan_Fit
+#make langaus
+	make DAC_Scan_Fit
 
-langaus.o : langaus.C
-	$(CXX) -c -o $@ -g $< -MMD
--include langaus.d
+#langaus.o : langaus.C
+#	$(CXX) -c -o $@ -g $< -MMD
+#-include langaus.d
 
-langaus : langaus.o
-	$(LDP) -o $@ $+ $(LIBP)
-#	$(LDP) -o $@ $+
+#langaus : langaus.o
+#	$(LDP) -o $@ $+ $(LIBP)
+	#$(LDP) -o $@ $+
 #$(LDP) -o $@ $+ $(LIBP)
 
 DAC_Scan_Fit.o : DAC_Scan_Fit.C
@@ -21,3 +21,4 @@ DAC_Scan_Fit.o : DAC_Scan_Fit.C
 
 DAC_Scan_Fit : DAC_Scan_Fit.o
 	$(LDP) -o $@ $+ $(LIBP)
+
